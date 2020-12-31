@@ -1,0 +1,20 @@
+---
+- gather_facts: off
+  hosts: nxos1:nxos2
+  tasks:
+#    - template:
+#        src: ex5.j2
+#        dest: "./configs/{{ inventory_hostname }}.txt"
+    - template:
+        src: ex5_int.j2
+        dest: "./configs/nxos/{{ inventory_hostname }}_int.txt"
+
+    - template:
+        src: ex5_bgp.j2
+        dest: "./configs/nxos/{{ inventory_hostname }}_bgp.txt"
+
+    - assemble:
+        src: ./configs/nxos
+        regexp: '^{{ inventory_hostname }}.*'
+        dest: "./configs/nxos/{{ inventory_hostname }}_full.txt"
+

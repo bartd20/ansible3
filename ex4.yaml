@@ -1,0 +1,8 @@
+---
+- gather_facts: off
+  hosts: arista
+  tasks:
+    - template:
+        src: ex4.j2
+        dest: "./configs/{{ inventory_hostname }}.txt"
+

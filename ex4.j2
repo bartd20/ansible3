@@ -1,0 +1,39 @@
+!
+transceiver qsfp default-mode 4x10G
+!
+hostname {{ inventory_hostname }}
+!
+ntp server {{ ntp_server1 }}
+!
+spanning-tree mode rapid-pvst
+!
+aaa authorization exec default local
+!
+no aaa root
+!
+!
+clock timezone {{ timezone }}
+!
+vlan 2-7
+!
+interface Ethernet1
+   spanning-tree portfast
+   spanning-tree cost 1
+!
+{% for port_name, vlan in eth_ports.items() %}
+interface {{ port_name }}
+  switchport access vlan {{ vlan }}
+!
+{% endfor %}
+interface Vlan1
+   ip address {{ vlan1_ip_address }}/{{ vlan1_netmask }}
+!
+ip route 0.0.0.0/0 {{ def_gateway }}
+!
+ip routing
+!
+management api http-commands
+   no shutdown
+!
+end
+

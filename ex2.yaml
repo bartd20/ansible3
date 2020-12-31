@@ -1,0 +1,16 @@
+---
+- gather_facts: off
+  hosts: nxos1
+  tasks:
+    - nxos_command:
+        commands: "show vlan id {{ item }}"
+      loop:
+        - 1
+        - 2
+        - 3
+        - 4
+      register: vlans
+
+    - debug:
+        msg: "{{ vlans['results'][3]['stdout'] }}"
+

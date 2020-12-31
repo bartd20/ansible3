@@ -1,0 +1,22 @@
+---
+- hosts: cisco:arista:juniper
+  gather_facts: off
+  tasks:
+    - ios_command:
+        commands: show ip arp
+      register: ios_arp
+      when: ansible_network_os == 'ios'
+
+    - eos_command:
+        commands: show ip arp
+      register: eos_arp
+      when: ansible_network_os == 'eos'              
+
+    - junos_command:
+        commands: show arp
+      register: junos_arp
+      when: ansible_network_os == 'junos'
+
+    - debug:
+        var: eos_arp
+ 
